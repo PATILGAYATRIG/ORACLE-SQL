@@ -1,4 +1,5 @@
 /*Group BY,HAVING*/
+--CASE STUDY-1--
 /*A company wants to rank products based on their sales. They want to list each product's rank in terms of total sales.*/
 CREATE TABLE product_sales (
     product_id NUMBER PRIMARY KEY,
@@ -15,9 +16,9 @@ select * from product_sales;
 select product_id,product_name,sales_amount,
 rank() over (order by sales_amount) as Rank
 from product_sales;
-/*Problem Statement:
-The HR department wants to evaluate employee salary trends based on their tenure. They want to calculate the average salary for employees with tenure in each year.
-*/
+    
+--CASE STUDY-2--
+/*The HR department wants to evaluate employee salary trends based on their tenure. They want to calculate the average salary for employees with tenure in each year.*/
 CREATE TABLE employee_details (
     employee_id NUMBER PRIMARY KEY,
     hire_date DATE,
@@ -45,12 +46,9 @@ FROM
     employee_details
 GROUP BY
     EXTRACT(YEAR FROM SYSDATE) - EXTRACT(YEAR FROM hire_date);
-
-/*### Case Study 8: Order Fulfillment Time Analysis
-
-#### Problem Statement
-A logistics company wants to analyze its order fulfillment time. They want to calculate the average fulfillment time for each month and the difference between each month's average fulfillment time and the previous month's.
-*/
+    
+--CASE STUDY-3--
+/* A logistics company wants to analyze its order fulfillment time. They want to calculate the average fulfillment time for each month and the difference between each month's average fulfillment time and the previous month's.*/
 CREATE TABLE order_fulfillment (
     order_id NUMBER PRIMARY KEY,
     fulfillment_date DATE,
@@ -69,6 +67,7 @@ LAG(avg(fulfillment_date -order_date),1,0) over (order by Extract(MONTH from ful
 from order_fulfillment
 group by Extract(MONTH from fulfillment_date), EXTRACT(YEAR FROM fulfillment_date) ;
 
+--CASE STUDY-4--
 /*The finance department wants to analyze monthly revenue trends. They need to calculate the cumulative revenue for each month and compare it with the previous month's revenue.
 */
 CREATE TABLE monthly_revenue (
@@ -89,6 +88,8 @@ SELECT
     LAG(revenue, 1, 0) OVER (ORDER BY month_date) AS previous_month_revenue
 FROM
     monthly_revenue;
+
+--CASE STUDY-5--
 /*
 You work for a retail company that wants to analyze its sales data. The company is interested in finding the total sales and average sales amount per product category. Additionally, they want to see only those categories where the average sales amount exceeds $500.
 
@@ -118,7 +119,7 @@ GROUP BY
 HAVING
     AVG(sale_amount) > 500;
 
-
+--CASE STUDY-6-
 /* A company wants to evaluate employee performance based on sales. The goal is to find the top 3 sales made by each employee using window functions.*/
 CREATE TABLE employee_sales (
     employee_id NUMBER,
@@ -151,6 +152,7 @@ FROM (
 WHERE
     rank <= 3;
 
+--CASE STUDY-7--
 /*The HR department wants to analyze salary data to find the average salary in each department. They also want to list departments where the average salary is higher than $5000.
 */
 
@@ -176,6 +178,8 @@ GROUP BY
     department_id
 HAVING
     AVG(salary) > 5000;
+
+--CASE STUDY-8--
 /*You work for an e-commerce company that wants to analyze its order data. The company wants to know the total number of orders and total revenue for each customer. They also want to see customers who have made more than 2 orders.
 */
 CREATE TABLE orders (
